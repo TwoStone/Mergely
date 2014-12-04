@@ -49,6 +49,7 @@ This example demonstrates how to set left and right editors using ajax.
 				success: function (response) {
 					$('#path-lhs').text(lhs_url);
 					$('#compare').mergely('lhs', response);
+					updateDiffCount();
 				}
 			});
 			$.ajax({
@@ -57,6 +58,7 @@ This example demonstrates how to set left and right editors using ajax.
 				success: function (response) {
 					$('#path-rhs').text(rhs_url);
 					$('#compare').mergely('rhs', response);
+					updateDiffCount();
 				}
 			});
 
@@ -107,7 +109,24 @@ This example demonstrates how to set left and right editors using ajax.
 			document.getElementById('ignorews').addEventListener('change', function() {
 				$('#compare').mergely('options', { ignorews: this.checked });
 			}, false);
+		
 
+			function updateDiffCount() {
+				$('#diffCount').text($('#compare').mergely('diffCount'));
+				$('#currentDiff').text($('#compare').mergely('currentDiff'));
+			}
+
+			$('#next').click(function () {
+				$('#compare').mergely('scrollToDiff','next');
+			});
+
+			$('#prev').click(function () {
+				$('#compare').mergely('scrollToDiff','prev');
+			});
+
+			setInterval(function() {
+				updateDiffCount();
+			}, 500);
 		});
 	</script>
 </head>
@@ -117,7 +136,13 @@ This example demonstrates how to set left and right editors using ajax.
 		<td style="width: 50%;"><input type="checkbox" id="ignorews">ignore witespaces</td>
 	</tr></table>
 	<br/>
-
+	<div>Diff 
+		<span id="currentDiff"></span>
+		von 
+ 		<span id="diffCount"></span>
+ 		<button id="prev">Prev</button>
+ 		<button id="next">Next</button>
+	</div>
 	<table  style="width: 100%;"><tr>
 		<td style="width: 50%;"><tt id="path-lhs"></tt> &nbsp; <a id="save-lhs" class="save-link" href="#">save</a></td>
 		<td style="width: 50%;"><tt id="path-rhs"></tt> &nbsp; <a id="save-rhs" class="save-link" href="#">save</a></td>
