@@ -45,7 +45,9 @@ This example demonstrates how to set left and right editors using ajax.
 					d:'#da291c',
 					c:'#307FE2'
 				},
-				bgcolor: '#EEE'
+				changed: function() {
+					updateDiffCount();
+				}
 			});
 			var lhs_url = 'lhs.txt';
 			var rhs_url = 'rhs.txt'
@@ -55,7 +57,6 @@ This example demonstrates how to set left and right editors using ajax.
 				success: function (response) {
 					$('#path-lhs').text(lhs_url);
 					$('#compare').mergely('lhs', response);
-					updateDiffCount();
 				}
 			});
 			$.ajax({
@@ -64,7 +65,6 @@ This example demonstrates how to set left and right editors using ajax.
 				success: function (response) {
 					$('#path-rhs').text(rhs_url);
 					$('#compare').mergely('rhs', response);
-					updateDiffCount();
 				}
 			});
 
@@ -124,15 +124,13 @@ This example demonstrates how to set left and right editors using ajax.
 
 			$('#next').click(function () {
 				$('#compare').mergely('scrollToDiff','next');
+				updateDiffCount();
 			});
 
 			$('#prev').click(function () {
 				$('#compare').mergely('scrollToDiff','prev');
-			});
-
-			setInterval(function() {
 				updateDiffCount();
-			}, 500);
+			});			
 		});
 	</script>
 </head>
